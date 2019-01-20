@@ -39,7 +39,7 @@ public class Server{
 				if(input == null || input.isEmpty()) {
 					break;
 				}
-				out.println(input.toUpperCase());
+				out.println("client #" + clientNbr + " says: "+ input.toUpperCase());
 			}
 		}catch(IOException e) {
 			System.out.println("Error handling client #" + clientNbr);
