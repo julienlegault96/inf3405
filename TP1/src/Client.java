@@ -12,6 +12,7 @@ public class Client {
 	
 	// an IPv4 address
 	//private static final String INET4ADDRESS = "172.8.9.28";
+	public static String portNbr;
 
 	private static final String IPv4_REGEX =
 					"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
@@ -20,6 +21,7 @@ public class Client {
 					"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
 
 	private static final Pattern IPv4_PATTERN = Pattern.compile(IPv4_REGEX);
+	
 
 
 	public static boolean isValidInet4Address(String ip) {
@@ -32,11 +34,23 @@ public class Client {
 		return matcher.matches();
 	}
 	
+	public static final String port_REGEX ="^(50[0-4][0-9]|5050)$";
+	public static final Pattern port_PATTERN = Pattern.compile(port_REGEX);
 	
+	public static boolean isValidPortNumber(String port) {
+		if (port == null) {
+			return false;
+		}
+
+		Matcher matcher = port_PATTERN.matcher(port);
+
+		return matcher.matches();
+	}
 	
     public static void main(String[] args) throws Exception {
         System.out.println("Enter the IP address of a machine running the capitalize server:");
         String serverAddress =  new Scanner(System.in).nextLine();
+
         
          String INET4ADDRESS = serverAddress;
         
@@ -53,11 +67,26 @@ public class Client {
      		if (isValidInet4Address(INET4ADDRESS)) {
      			System.out.print("The IP address " + INET4ADDRESS + " is valid \n");
      		}
+     				
+            System.out.println("Enter the port number of a machine running the capitalize server:");
+            String portNumber =  new Scanner(System.in).nextLine();
 
+     
+     		// validation PORT
+     	     
+           while(!isValidPortNumber(portNumber)) {
+           	System.out.print("The port number " + portNumber + " isn't valid \n"); 
+               System.out.println("Enter the correct port number of the machine running the capitalize server:");
+               portNumber =  new Scanner(System.in).nextLine();          
+           }
+            
+        		if (isValidInet4Address(INET4ADDRESS)) {
+        			System.out.print("The IP address " + INET4ADDRESS + " is valid \n");
+        		}
         
-        
+        portNbr = portNumber;
         Socket socket = null;
-        socket = new Socket(serverAddress, 9898);
+        socket = new Socket(serverAddress, Integer.parseInt(portNbr));
 
         // Streams for conversing with server
         BufferedReader in = null;

@@ -27,7 +27,8 @@ public class Server {
     public static void main(String[] args) throws Exception {
         System.out.println("The capitalization server is running.");
         int clientNumber = 0;
-        try (ServerSocket listener = new ServerSocket(9898)) {
+        Client client = new Client();
+        try (ServerSocket listener = new ServerSocket(Integer.parseInt(client.portNbr))) {
             while (true) {
                 new Capitalizer(listener.accept(), clientNumber++).start();
             }
