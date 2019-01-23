@@ -5,48 +5,75 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server{
-	
-	public static void main(String[] args) throws Exception {
-		System.out.println("Le serveur roule");
-		int clientNbr = 0;
-		try(var listener = new ServerSocket(5000)){
-			while(true) {
-				new Capitalizer(listener.accept(), clientNbr++).start();
-			}
-		}
-	}
-	
-	private static class Capitalizer extends Thread{
-		private Socket socket;
-		private int clientNbr;
-		
-		public Capitalizer(Socket socket, int clientNbr){
-			this.socket = socket;
-			this.clientNbr = clientNbr;
-			System.out.println("New client #" + clientNbr + " connected at " + socket);			
-		}
-		
-	
-	public void run() {
-		try {
-			var in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			var out = new PrintWriter(socket.getOutputStream(), true);
-			
-			out.println("Hello, you are client #" + clientNbr);
-			while(true) {
-				var input = in.readLine();
-				if(input == null || input.isEmpty()) {
-					break;
-				}
-				out.println("client #" + clientNbr + " says: "+ input.toUpperCase());
-			}
-		}catch(IOException e) {
-			System.out.println("Error handling client #" + clientNbr);
-		}finally {
-			try {socket.close();} catch(IOException e) {}
-			 System.out.println("Connection with client # " + clientNbr + " closed");
-			}
-		}
-	}
+/**
+ * A server program which accepts requests from clients to capitalize strings.
+ * When clients connect, a new thread is started to handle an interactive dialog
+ * in which the client sends in a string and the server thread sends back the
+ * capitalized version of the string.
+ *
+ * The program is runs in an infinite loop, so shutdown in platform dependent.
+ * If you ran it from a console window with the "java" interpreter, Ctrl+C will
+ * shut it down.
+ */
+public class Server {
+
+    /**
+     * Application method to run the server listening on port 9898. When a
+     * client connects, the server spawns a new thread to do the servicing
+     * and immediately returns to listening.  The server keeps a unique client
+     * number for each client that connects just to show interesting logging
+     * messages. It is certainly not necessary to do this.
+     */
+    public static void main(String[] args) throws Exception {
+        System.out.println("The capitalization server is running.");
+        int clientNumber = 0;
+        try (ServerSocket listener = new ServerSocket(9898)) {
+            while (true) {
+                new Capitalizer(listener.accept(), clientNumber++).start();
+            }
+        }
+    }
+
+    /**
+     * A private thread to handle capitalization requests on a particular socket.
+     */
+    private static class Capitalizer extends Thread {
+        private Socket socket;
+        private int clientNumber;
+
+        public Capitalizer(Socket socket, int clientNumber) {
+            this.socket = socket;
+            this.clientNumber = clientNumber;
+            System.out.println("New client #" + clientNumber + " connected at " + socket);
+        }
+
+        /**
+         * Services this thread's client by first sending the client a welcome
+         * message then repeatedly reading strings and sending back the capitalized
+         * version of the string.
+         */
+        public void run() {
+            try {
+            	BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            	PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+                // Send a welcome message to the client.
+                out.println("Hello, you are client #" + clientNumber);
+
+                // Get messages from the client, line by line; return them capitalized
+                while (true) {
+                    String input = in.readLine();
+                    if (input == null || input.isEmpty()) {
+                        break;
+                    }
+                    out.println(input.toUpperCase());
+                }
+            } catch (IOException e) {
+                System.out.println("Error handling client #" + clientNumber);
+            } finally {
+                try { socket.close(); } catch (IOException e) {}
+                System.out.println("Connection with client # " + clientNumber + " closed");
+            }
+        }
+    }
 }
