@@ -12,7 +12,6 @@ public class Client {
 	
 	// an IPv4 address
 	//private static final String INET4ADDRESS = "172.8.9.28";
-	public static String portNbr;
 
 	private static final String IPv4_REGEX =
 					"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
@@ -21,9 +20,12 @@ public class Client {
 					"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
 	private static final String port_REGEX ="^(50[0-4][0-9]|5050)$";
 	
-	public static final Pattern IPv4_PATTERN = Pattern.compile(IPv4_REGEX);	
-	public static final Pattern port_PATTERN = Pattern.compile(port_REGEX);
+	private static final Pattern IPv4_PATTERN = Pattern.compile(IPv4_REGEX);	
+	
+	private static final Pattern port_PATTERN = Pattern.compile(port_REGEX);
 
+	public static String portNbr;
+	
 	public static boolean isValid(String number, Pattern pattern) {
 		if (number == null) {
 			return false;
@@ -38,21 +40,18 @@ public class Client {
         System.out.println("Enter the IP address of a machine running the capitalize server:");
            String serverAddress =  new Scanner(System.in).nextLine();
         
-         String INET4ADDRESS = serverAddress;
-        
      // Validate an IPv4 address         
-        while(!isValid(INET4ADDRESS, IPv4_PATTERN)) {
-        	System.out.print("The IP address " + INET4ADDRESS + " isn't valid \n"); 
-            System.out.println("Enter the correct IP address of the machine running the capitalize server:");
-            serverAddress =  new Scanner(System.in).nextLine();
-            INET4ADDRESS = serverAddress;
-       
-        }
-     		if (isValid(INET4ADDRESS, IPv4_PATTERN)) {
-     			System.out.print("The IP address " + INET4ADDRESS + " is valid \n");
+           while(!isValid(serverAddress, IPv4_PATTERN)) {
+        	   System.out.print("The IP address " + serverAddress + " isn't valid \n"); 
+        	   System.out.println("Enter the correct IP address of the machine running the server:");
+        	   serverAddress =  new Scanner(System.in).nextLine();       
+     		}
+        
+     		if (isValid(serverAddress, IPv4_PATTERN)) {
+     			System.out.print("The IP address " + serverAddress + " is valid \n");
      		}
      				
-            System.out.println("Enter the port number of a machine running the capitalize server:");
+            System.out.println("Enter the port number of a machine running the server:");
             String portNumber =  new Scanner(System.in).nextLine();
            
             
@@ -61,17 +60,18 @@ public class Client {
      // validation PORT     	     
            while(!isValid(portNumber, port_PATTERN)) {
            	System.out.print("The port number " + portNumber + " isn't valid \n"); 
-               System.out.println("Enter the correct port number of the machine running the capitalize server:");
+               System.out.println("Enter the correct port number of the machine running the server:");
                portNumber =  new Scanner(System.in).nextLine();          
            }
             
-        		if (isValid(INET4ADDRESS, port_PATTERN)) {
-        			System.out.print("The IP address " + INET4ADDRESS + " is valid \n");
+        		if (isValid(portNumber, port_PATTERN)) {
+        			System.out.print("The IP address " + portNumber + " is valid \n");
         		}
         
         portNbr = portNumber;
-        Socket socket = null;
-        socket = new Socket(serverAddress, Integer.parseInt(portNbr));
+        
+       Socket socket = null;
+       socket = new Socket(serverAddress, Integer.parseInt(portNbr));
 
         // Streams for conversing with server
         BufferedReader in = null;

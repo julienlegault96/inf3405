@@ -15,20 +15,13 @@ import java.net.Socket;
  * If you ran it from a console window with the "java" interpreter, Ctrl+C will
  * shut it down.
  */
-public class Server {
 
-    /**
-     * Application method to run the server listening on port 9898. When a
-     * client connects, the server spawns a new thread to do the servicing
-     * and immediately returns to listening.  The server keeps a unique client
-     * number for each client that connects just to show interesting logging
-     * messages. It is certainly not necessary to do this.
-     */
+public class Server {
+	
     public static void main(String[] args) throws Exception {
         System.out.println("The capitalization server is running.");
         int clientNumber = 0;
-        Client client = new Client();
-        try (ServerSocket listener = new ServerSocket(Integer.parseInt(client.portNbr))) {
+        try (ServerSocket listener = new ServerSocket(Integer.parseInt(Client.portNbr))) {
             while (true) {
                 new Capitalizer(listener.accept(), clientNumber++).start();
             }
