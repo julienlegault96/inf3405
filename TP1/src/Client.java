@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 //import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -24,7 +25,7 @@ public class Client {
 	
 	private static final Pattern port_PATTERN = Pattern.compile(port_REGEX);
 
-	public static String portNbr;
+	static String serverAddress;
 	
 	public static boolean isValid(String number, Pattern pattern) {
 		if (number == null) {
@@ -37,8 +38,9 @@ public class Client {
 	
 	
     public static void main(String[] args) throws Exception {
+    	
         System.out.println("Enter the IP address of a machine running the capitalize server:");
-           String serverAddress =  new Scanner(System.in).nextLine();
+        serverAddress =  new Scanner(System.in).nextLine();
         
      // Validate an IPv4 address         
            while(!isValid(serverAddress, IPv4_PATTERN)) {
@@ -51,12 +53,11 @@ public class Client {
      			System.out.print("The IP address " + serverAddress + " is valid \n");
      		}
      				
+     		
+     		
             System.out.println("Enter the port number of a machine running the server:");
             String portNumber =  new Scanner(System.in).nextLine();
-           
             
-
-     
      // validation PORT     	     
            while(!isValid(portNumber, port_PATTERN)) {
            	System.out.print("The port number " + portNumber + " isn't valid \n"); 
@@ -66,12 +67,10 @@ public class Client {
             
         		if (isValid(portNumber, port_PATTERN)) {
         			System.out.print("The IP address " + portNumber + " is valid \n");
-        		}
-        
-        portNbr = portNumber;
-        
+        		}    	
+    
        Socket socket = null;
-       socket = new Socket(serverAddress, Integer.parseInt(portNbr));
+       socket = new Socket(InetAddress.getByName(serverAddress), Integer.parseInt(portNumber));
 
         // Streams for conversing with server
         BufferedReader in = null;
