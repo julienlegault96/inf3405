@@ -22,7 +22,7 @@ public class Server {
 
 	private static final Pattern port_PATTERN = Pattern.compile(port_REGEX);
 
-	public static boolean isValid(String number, Pattern pattern) {
+	private static boolean isValid(String number, Pattern pattern) {
 		if (number == null) {
 			return false;
 		}
@@ -78,7 +78,7 @@ public class Server {
 		private Socket socket;
 		private int clientNumber;
 
-		public Capitalizer(Socket socket, int clientNumber) {
+		private Capitalizer(Socket socket, int clientNumber) {
 			this.socket = socket;
 			this.clientNumber = clientNumber;
 			System.out.println("New client #" + clientNumber + " connected at " + socket);

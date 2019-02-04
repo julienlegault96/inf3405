@@ -23,7 +23,7 @@ public class Client {
 
 	static String serverAddress;
 
-	public static boolean isValid(String number, Pattern pattern) {
+	private static boolean isValid(String number, Pattern pattern) {
 		if (number == null) {
 			return false;
 		}
