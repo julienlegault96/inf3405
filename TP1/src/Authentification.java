@@ -43,7 +43,7 @@ public class Authentification {
  		     
      		     if(attempt<=2 && comparaison==0) { //mot de passe valide
      		    	System.out.println("Welcome "+FileName);
-     		    	
+     		    	//TODO: Call method     		    	
      		     }
      		     else {
      	 		    System.out.println("3 failed authentication attempts, the application will terminate !");
@@ -67,6 +67,7 @@ public class Authentification {
                      // �crire le mot de passe dans le fichier et dire compte cr�e avec succ�s
                      writeToFile(PS, "../ClientInformations/"+FileName+".txt");
                      System.out.println("Your profile has been created "+FileName+" !");
+                     createDirectory(FileName);
                  }
                  else
                  System.out.println("incompatible passwords");
@@ -86,6 +87,16 @@ public class Authentification {
       }
    
    } // main
+   
+   private static void createDirectory(String username) {
+	   		File directory;
+	   		
+	   		directory = new File( "../database/" + username).getAbsoluteFile();
+	   		if(directory.exists() || directory.mkdirs())
+	   		{
+	   			System.setProperty(username, directory.getAbsolutePath());
+	   		}
+   }
    
 	// Fonction permettant de lire un fichier et de stocker son contenu dans une liste (pris des fichier fournis par la charg�e de lab
 	private static List<String> readFile(String nomFichier) throws IOException {
