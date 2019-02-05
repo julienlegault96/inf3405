@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Authentification {
    public static void main(String[] args) {      
-      File f = null;
+      //File f = null;
       int n=0,comparaison;
       Scanner clavier = new Scanner(System.in); 
       System.out.println("Enter your user name:");
@@ -19,13 +19,13 @@ public class Authentification {
       
       try {
          // create logic file
-         f = new File(FileName+".txt");
-                  
+        // f = new File(FileName+".txt");
+  		File f = new File("C:\\Users\\User\\eclipse-workspace\\TP1ClientServer\\database\\"+FileName+".txt");          
          // tests if file exists
          if(f.exists())
              {
         	 // lire le mot de passe à partir du fichier du client
- 			 List<String> Pw = readFile(FileName+".txt");
+ 			 List<String> Pw = readFile("C:\\Users\\User\\eclipse-workspace\\TP1ClientServer\\database\\"+FileName+".txt");
  			 //conversion list vers string
  			 String Pword = String.join(", ", Pw); 
  			 // lire le mot de passe entré au clavier par le client
@@ -63,7 +63,8 @@ public class Authentification {
                  comparaison = PS.compareTo(PS2);
                  if(comparaison==0) {
                  // écrire le mot de passe dans le fichier et dire compte crée avec succès
-                 writeToFile(PS, FileName+".txt");
+                 writeToFile(PS, "C:\\Users\\User\\eclipse-workspace\\TP1ClientServer\\database\\"+FileName+".txt");
+                 System.out.println("Your profile has been created "+FileName+" !");
                  }
                  else
                  System.out.println("incompatible passwords");
