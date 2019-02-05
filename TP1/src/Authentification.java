@@ -10,16 +10,14 @@ import java.util.Scanner;
 
 
 public class Authentification {
-   public static void main(String[] args) {      
-      //File f = null;
+   //public static void main(String[] args) {      
+	public static void authentification() {
       int attempt = 0,comparaison;
       Scanner input = new Scanner(System.in); 
       System.out.println("Enter your user name:");
       String FileName =  input.nextLine();
       
       try {
-         // create logic file
-        // f = new File(FileName+".txt");
   		File f = new File("../ClientInformations/"+FileName+".txt");          
          // tests if file exists
          if(f.exists())
@@ -42,12 +40,11 @@ public class Authentification {
  		     }
  		     
      		     if(attempt<=2 && comparaison==0) { //mot de passe valide
-     		    	System.out.println("Welcome "+FileName);
-     		    	//TODO: Call method     		    	
+     		    	System.out.println("Welcome "+FileName);  		    	
      		     }
      		     else {
      	 		    System.out.println("3 failed authentication attempts, the application will terminate !");
-     	 		    // TODO : Close the socket
+     	 		    //TODO : close socket
      		     }
  		    	
  		     } 

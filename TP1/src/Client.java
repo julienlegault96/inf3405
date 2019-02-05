@@ -65,6 +65,10 @@ public class Client {
 		Socket socket = null;
 		socket = new Socket(serverAddress, Integer.parseInt(portNumber));
 
+		Authentification authentifier =  new Authentification();
+		
+		authentifier.authentification();
+		
 		BufferedReader in = null;
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter out = null;
@@ -83,5 +87,6 @@ public class Client {
 			System.out.println(in.readLine());
 		}
 		scanner.close();
+		
 	}
 }
