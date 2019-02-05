@@ -12,59 +12,61 @@ import java.util.Scanner;
 public class Authentification {
    public static void main(String[] args) {      
       //File f = null;
-      int n=0,comparaison;
-      Scanner clavier = new Scanner(System.in); 
+      int attempt = 0,comparaison;
+      Scanner input = new Scanner(System.in); 
       System.out.println("Enter your user name:");
-      String FileName =  clavier.nextLine();
+      String FileName =  input.nextLine();
       
       try {
          // create logic file
         // f = new File(FileName+".txt");
-  		File f = new File("C:\\Users\\User\\eclipse-workspace\\TP1ClientServer\\database\\"+FileName+".txt");          
+  		File f = new File("../ClientInformations/"+FileName+".txt");          
          // tests if file exists
          if(f.exists())
              {
-        	 // lire le mot de passe à partir du fichier du client
- 			 List<String> Pw = readFile("C:\\Users\\User\\eclipse-workspace\\TP1ClientServer\\database\\"+FileName+".txt");
+        	 // lire le mot de passe ï¿½ partir du fichier du client
+ 			 List<String> Pw = readFile("../ClientInformations/"+FileName+".txt");
  			 //conversion list vers string
  			 String Pword = String.join(", ", Pw); 
- 			 // lire le mot de passe entré au clavier par le client
+ 			 // lire le mot de passe entrï¿½ au clavier par le client
  		     System.out.println("Enter your password:");
- 		     String UserPword =  clavier.nextLine();
+ 		     String UserPword =  input.nextLine();
  		     //comparaison des deux mot de passes: retourne 0 si identiques
  		     comparaison = 	Pword.compareTo(UserPword);
  		     // 3 chances au maximum pour que l'utilisateur introduise un mot de passe valide
- 		     while(n<2 && comparaison!=0) {
- 		    	 n++;
+ 		     while(attempt<2 && comparaison!=0) {
+ 		    	attempt++;
  		    	System.out.println("Enter a valid password:");
- 		    	UserPword =  clavier.nextLine();
+ 		    	UserPword =  input.nextLine();
  		    	comparaison = 	Pword.compareTo(UserPword);
  		     }
  		     
- 		     if(n<2 && comparaison==0) //mot de passe valide
- 		    	System.out.println("Welcome "+FileName);
- 	 		 if(n>=2 && comparaison!=0) 
- 	 		    System.out.println("3 failed authentication attempts, the application will terminate !");
+     		     if(attempt<=2 && comparaison==0) { //mot de passe valide
+     		    	System.out.println("Welcome "+FileName);
+     		    	
+     		     }
+     		     else {
+     	 		    System.out.println("3 failed authentication attempts, the application will terminate !");
+     	 		    // TODO : Close the socket
+     		     }
  		    	
  		     } 
  		      
          else { // il n'existe pas de fichier portant le num d'utilisateur introduit
              System.out.println("Your user name doesn't exist, would you like to use it to create your acount? Yes/No:");
-             String answer =  clavier.nextLine();
-             comparaison = "Yes".compareTo(answer);
-             
-             if(comparaison==0) { // création d'un compte pour l'utilisateur
-                 // création du fichier 
-                 f.createNewFile();
+             String answer =  input.nextLine();
+             comparaison = "Yes".compareTo(answer);             
+             if(comparaison==0) { // crï¿½ation d'un compte pour l'utilisateur 
                  System.out.println("Enter a new passeword:");
-                 String PS =  clavier.nextLine();
+                 String PS =  input.nextLine();
                  System.out.println("Confirm again your passeword:");
-                 String PS2 =  clavier.nextLine();
+                 String PS2 =  input.nextLine();
                  comparaison = PS.compareTo(PS2);
                  if(comparaison==0) {
-                 // écrire le mot de passe dans le fichier et dire compte crée avec succès
-                 writeToFile(PS, "C:\\Users\\User\\eclipse-workspace\\TP1ClientServer\\database\\"+FileName+".txt");
-                 System.out.println("Your profile has been created "+FileName+" !");
+                	 f.createNewFile();
+                     // ï¿½crire le mot de passe dans le fichier et dire compte crï¿½e avec succï¿½s
+                     writeToFile(PS, "../ClientInformations/"+FileName+".txt");
+                     System.out.println("Your profile has been created "+FileName+" !");
                  }
                  else
                  System.out.println("incompatible passwords");
@@ -85,7 +87,7 @@ public class Authentification {
    
    } // main
    
-	// Fonction permettant de lire un fichier et de stocker son contenu dans une liste (pris des fichier fournis par la chargée de lab
+	// Fonction permettant de lire un fichier et de stocker son contenu dans une liste (pris des fichier fournis par la chargï¿½e de lab
 	private static List<String> readFile(String nomFichier) throws IOException {
 		List<String> listOfLines = new ArrayList<String>();
 		String line = null;
@@ -105,7 +107,7 @@ public class Authentification {
 		}
 		return listOfLines;
 	}
-	// Fonction permettant d'écrire dans un fichier (fournis par la chargée de lab)
+	// Fonction permettant d'ï¿½crire dans un fichier (fournis par la chargï¿½e de lab)
 		private static void writeToFile(String myStack, String nomFichier) throws IOException {
 			BufferedWriter out = null;
 			try {
