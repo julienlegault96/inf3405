@@ -21,7 +21,7 @@ public class Client {
 
 	private static final Pattern port_PATTERN = Pattern.compile(port_REGEX);
 
-	static String serverAddress;
+	private static String serverAddress;
 
 	private static boolean isValid(String number, Pattern pattern) {
 		if (number == null) {

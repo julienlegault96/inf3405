@@ -12,9 +12,10 @@ import java.util.regex.Pattern;
 
 public class Server {
 
-	private static final String IPv4_REGEX = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
-			+ "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
-			+ "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+	private static final String IPv4_REGEX = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+											 "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."  + 
+											 "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."  +
+											 "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
 	
 	private static final String port_REGEX = "^(50[0-4][0-9]|5050)$";
 
@@ -73,7 +74,6 @@ public class Server {
 		}
 	}
 
-
 	private static class Capitalizer extends Thread {
 		private Socket socket;
 		private int clientNumber;
@@ -84,7 +84,6 @@ public class Server {
 			System.out.println("New client #" + clientNumber + " connected at " + socket);
 		}
 
-		
 		public void run() {
 			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
