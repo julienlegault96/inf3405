@@ -28,7 +28,7 @@ public class Commands {
 	        }   
 	    }
 
-	public static void main(String[] args) throws Exception {
+		public static void Commands(){
 		list(new File("C:\\Users\\User\\eclipse-workspace\\TP1ClientServer"));
 	}
 }

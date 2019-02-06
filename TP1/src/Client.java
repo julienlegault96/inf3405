@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 //import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -77,14 +78,28 @@ public class Client {
 		System.out.println(in.readLine());
 		Scanner scanner = null;
 		scanner = new Scanner(System.in);
-		while (true) {
-			System.out.println("\nEnter a string to send to the server (empty to quit):");
-			String message = scanner.nextLine();
-			if (message == null || message.isEmpty()) {
+		boolean connected = true;
+		while (connected) {
+			Commands commands = new Commands();
+			
+			System.out.println("\nEnter a  command");
+			String command = scanner.nextLine();			
+			switch(command) {			
+			case "exit": connected = false; 
+				break;				
+			case "ls": 
+				System.out.println(">> ls");
+				commands.list( new File( "../database/" + authentifier.FileName));
+				break;
+			case "upload": System.out.println(">> upload");
+				break;
+			case "download": System.out.println(">> download");
+				break;
+			case "delete": System.out.println(">> delete");
+				break;
+			default : System.out.println("command " + "'" + command + "'" + " not found");
 				break;
 			}
-			out.println(message);
-			System.out.println(in.readLine());
 		}
 		scanner.close();
 		

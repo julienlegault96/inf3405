@@ -8,15 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Authentification {
+	public  static String FileName;
+	
 	public static void authentification() {
 		int attempt = 1, comparaison;
 		final int MAX_ATTEMPT = 3;
 		final int VALID = 0;
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter your user name:");
-		String FileName = input.nextLine();
+		FileName = input.nextLine();
 
 		try {
 			File f = new File("../ClientInformations/" + FileName + ".txt");
