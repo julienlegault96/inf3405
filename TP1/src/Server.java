@@ -1,10 +1,15 @@
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,22 +88,37 @@ public class Server {
 			this.clientNumber = clientNumber;
 			System.out.println("New client #" + clientNumber + " connected at " + socket);
 		}
+		
+		private void request() throws Exception {	
+			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+			out.flush();
+			ArrayList<String> message  = (ArrayList<String>) in.readObject();
+			System.out.println(message);
+			ArrayList<String> response = new ArrayList<String>();
+			if (message.get(0).equals("username")) {
+				if (message.get(1).equals("Julien")) {
+					response.add("registered");
+					out.writeObject(response);
+				}
+				else {
+					response.add("unregistered");
+					out.writeObject(response);
+				}
+			}
+			else {
+				System.out.println("A faire");
+			}
+		}
 
 		public void run() {
 			try {
-				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
-				out.println("Hello, you are client #" + clientNumber);
 
 				while (true) {
-					String input = in.readLine();
-					if (input == null || input.isEmpty()) {
-						break;
-					}
-					out.println(input.toUpperCase());
+					request();
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("Error handling client #" + clientNumber);
 			} finally {
 				try {
