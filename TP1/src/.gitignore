@@ -4,3 +4,6 @@
 /ValidateIPv4.class
 *.txt
 /Commands.class
+/Authentification.class
+/ClientService.class
+/ServerService.class

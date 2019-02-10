@@ -15,76 +15,28 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Client {
-
-	private static final String IPv4_REGEX = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-											 "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."  + 
-											 "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."  + 
-											 "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
-
-	private static final String port_REGEX = "^(50[0-4][0-9]|5050)$";
-
-	private static final Pattern IPv4_PATTERN = Pattern.compile(IPv4_REGEX);
-
-	private static final Pattern port_PATTERN = Pattern.compile(port_REGEX);
-
-	private static String serverAddress;
-	static String portNumber;
-
-	private static boolean isValid(String number, Pattern pattern) {
-		if (number == null) {
-			return false;
-		}
-		Matcher matcher = pattern.matcher(number);
-
-		return matcher.matches();
-	}
 	
-	private static String validateIPaddress(String tempAddress) {
-		while (!isValid(tempAddress, IPv4_PATTERN)) {
-			System.out.println("The IP address " + tempAddress + " isn't valid \n");
-			System.out.println("Enter the correct IP address of the machine running the server:");
-			tempAddress = new Scanner(System.in).nextLine();
-		}
-
-		if (isValid(tempAddress, IPv4_PATTERN)) {
-			serverAddress = tempAddress;
-			System.out.print("The IP address " + serverAddress + " is valid \n");			
-		}		
-		return serverAddress;
-	}
-	
-	private static String validatePortNumber(String tempPortNumber) {
-		while (!isValid(tempPortNumber, port_PATTERN)) {
-			System.out.println("The port number " + tempPortNumber + " isn't valid \n");
-			System.out.println("Enter the correct port number of the machine running the server:");
-			tempPortNumber = new Scanner(System.in).nextLine();
-		}
-
-		if (isValid(tempPortNumber, port_PATTERN)) {
-			portNumber = tempPortNumber;
-			System.out.print("The IP address " + portNumber + " is valid \n");
-		}
-		return portNumber;
-	}
 
 	public static void main(String[] args) throws Exception {
+		ClientService clientService = new ClientService(); 
 
 		System.out.println("Enter the IP address of a machine running the capitalize server:");
 		String tempAddress = new Scanner(System.in).nextLine();
-		serverAddress = validateIPaddress(tempAddress);
+		String serverAddress = clientService.validateIPaddress(tempAddress);
 
 		System.out.println("Enter the port number of a machine running the server:");
 		String tempPortNumber = new Scanner(System.in).nextLine();
-		portNumber = validatePortNumber(tempPortNumber);
+		String portNumber = clientService.validatePortNumber(tempPortNumber);
 
 		Socket socket = null;
 		socket = new Socket(serverAddress, Integer.parseInt(portNumber));
 		
 		
 		
-		ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-		out.flush();
-		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.flush();
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        
 		Scanner scanner = new Scanner(System.in);
 		ArrayList<String> messageToServer = new ArrayList<String>();
 		
