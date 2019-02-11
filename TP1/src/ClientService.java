@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,4 +57,24 @@ public class ClientService {
 		}
 		return portNumber;
 	}
+
+	public static void sendInput(String input, String type, ObjectOutputStream out, ObjectInputStream in)
+			throws IOException, ClassNotFoundException {
+		ArrayList<String> messageToServer = new ArrayList<String>();
+		messageToServer.add(type);
+		messageToServer.add(input);
+		out.writeObject(messageToServer);
+		out.flush();
+	}
+
+	public static void validateUser(String Password, String username, String type, ObjectOutputStream out,
+			ObjectInputStream in) throws IOException, ClassNotFoundException {
+		ArrayList<String> messageToServer = new ArrayList<String>();
+		messageToServer.add(type);
+		messageToServer.add(username);
+		messageToServer.add(Password);
+		out.writeObject(messageToServer);
+		out.flush();
+	}
+
 }
