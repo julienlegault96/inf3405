@@ -23,10 +23,12 @@ public class Server {
 
 		System.out.println("Enter the IP address:");
 		String tempAddress = new Scanner(System.in).nextLine();
+		//String tempAddress = "127.0.0.1";
 		String serverAddress = serverService.validateIPaddress(tempAddress);
 
 		System.out.println("Enter the port number:");
 		String tempPortNumber = new Scanner(System.in).nextLine();
+		//String tempPortNumber = "5000";
 		String portNumber = serverService.validatePortNumber(tempPortNumber);
 
 		System.out.println("The server is running.");
@@ -69,9 +71,7 @@ public class Server {
 		}
 
 		private void request(ObjectInputStream in, ObjectOutputStream out) throws Exception {
-			// System.out.println("Debug ");
 			ArrayList<String> responseFromClient = (ArrayList<String>) in.readObject();
-			// System.out.println("Debug 2");
 
 			switch (responseFromClient.get(0)) {
 			case "username":

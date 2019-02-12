@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -171,7 +172,11 @@ public class ServerService {
 			System.out.println("delete");
 			break;
 		case "exit" :
-			System.out.println("exit");
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " exit");
+			disconnectUser(out);
+			break;
+		default:
+			System.out.println("Invalid command");
 			break;
 		}
 	}
@@ -184,7 +189,7 @@ public class ServerService {
             File[] list = path.listFiles();
             ArrayList<String> messageToClient = new ArrayList<String>();
             messageToClient.add("list");
-            if (list != null)
+            if (list.length !=  0)
             {
                 for (int i = 0; i < list.length; i++)
                 {
@@ -206,4 +211,11 @@ public class ServerService {
 			out.flush();
         }   
     }
+	
+	public static void disconnectUser(ObjectOutputStream out) throws IOException {
+		ArrayList<String> messageToClient = new ArrayList<String>();
+		messageToClient.add("disconnect User");
+        out.writeObject(messageToClient);            
+		out.flush();
+	}
 }

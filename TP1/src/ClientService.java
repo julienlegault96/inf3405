@@ -58,16 +58,7 @@ public class ClientService {
 		}
 		return portNumber;
 	}
-
-	public static void sendInput(String input, String type, ObjectOutputStream out, ObjectInputStream in)
-			throws IOException, ClassNotFoundException {
-		ArrayList<String> messageToServer = new ArrayList<String>();
-		messageToServer.add(type);
-		messageToServer.add(input);
-		out.writeObject(messageToServer);
-		out.flush();
-	}
-
+	
 	public static void validateUser(String Password, String username, String type, ObjectOutputStream out,
 			ObjectInputStream in) throws IOException, ClassNotFoundException {
 		ArrayList<String> messageToServer = new ArrayList<String>();
@@ -77,6 +68,15 @@ public class ClientService {
 		out.writeObject(messageToServer);
 		out.flush();
 	}
+
+	public static void sendInput(String input, String type, ObjectOutputStream out, ObjectInputStream in)
+			throws IOException, ClassNotFoundException {
+		ArrayList<String> messageToServer = new ArrayList<String>();
+		messageToServer.add(type);
+		messageToServer.add(input);
+		out.writeObject(messageToServer);
+		out.flush();
+	}	
 	
 	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {
 		boolean isConnected = true;
@@ -93,7 +93,6 @@ public class ClientService {
 	}
 	
 	public static void listing(ArrayList<String> list) throws ClassNotFoundException, IOException {
-		//System.out.print("listing");
 		for(int i = 1; i < list.size(); i++ ) {
 			System.out.println(list.get(i));
 		}

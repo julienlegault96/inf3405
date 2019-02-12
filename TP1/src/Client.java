@@ -20,10 +20,12 @@ public class Client {
 
 			System.out.println("Enter the IP address of a machine running the server:");
 			String tempAddress = scanner.nextLine();
+			//String tempAddress = "127.0.0.1";
 			String serverAddress = clientService.validateIPaddress(tempAddress);
 
 			System.out.println("Enter the port number of a machine running the server:");
 			String tempPortNumber = scanner.nextLine();
+			//String tempPortNumber = "5000";		
 			String portNumber = clientService.validatePortNumber(tempPortNumber);
 
 			socket = new Socket(serverAddress, Integer.parseInt(portNumber));
@@ -82,19 +84,29 @@ public class Client {
 			type = "Password";
 			ClientService.validateUser(password, username, type, out, in);
 			break;
+			
 		case "TooManyBadPasswords":
 			System.out.println("3 failed authentication attempts, the application will terminate !");
 			socket.close();
 			break;
+			
 		case "DirectoryCreated":
 			System.out.println("Congratulations " + username + " your own storage space has been created!");
 			ClientService.enterCommands(username, out);
-			break;			
+			break;	
+			
 		case "list":
 			System.out.println(">> ls"); 	
 			ClientService.listing(responseFromServer);
+			ClientService.enterCommands(username, out);
 			break;
 
+			
+		case "disconnect User":
+			System.out.println("User " + username + " was disconnected properly");
+			socket.close();
+			break;
+			
 		default:
 			break;
 		}
