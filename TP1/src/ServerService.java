@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ServerService {
 	private static int attempt = 1;
@@ -152,4 +154,56 @@ public class ServerService {
 			out.flush();
 		}
 	}
+	
+	public static void validateCommand(String username, String command, /*String commandArgument,*/ ObjectOutputStream out ) throws IOException {
+		switch(command) {
+		case "ls" :	
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " ls");
+			list(new File("../database/" + username), out);
+			break;
+		case "upload" :	
+			System.out.println("upload");
+			break;
+		case "download" :
+			System.out.println("download");
+			break;
+		case "delete" :
+			System.out.println("delete");
+			break;
+		case "exit" :
+			System.out.println("exit");
+			break;
+		}
+	}
+	
+	public static void list(File path, ObjectOutputStream out) throws IOException
+    {
+        if (path.isDirectory())
+        {
+        	
+            File[] list = path.listFiles();
+            ArrayList<String> messageToClient = new ArrayList<String>();
+            messageToClient.add("list");
+            if (list != null)
+            {
+                for (int i = 0; i < list.length; i++)
+                {
+                	if (list[i].isDirectory()) {
+                	messageToClient.add("[Folder] " + list[i].getName());
+                	}
+                	else { 
+                	messageToClient.add("[File] " + list[i].getName());
+                	}
+                	
+                }
+
+            }
+            else
+            {
+            	messageToClient.add("Your storage space seem to be empty =( ");
+            } 
+            out.writeObject(messageToClient);            
+			out.flush();
+        }   
+    }
 }

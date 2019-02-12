@@ -33,16 +33,16 @@ public class Server {
 		try (ServerSocket listener = new ServerSocket(Integer.parseInt(portNumber), 10,
 				InetAddress.getByName(serverAddress))) {
 			while (true) {
-				new Capitalizer(listener.accept(), clientNumber++).start();
+				new Connector(listener.accept(), clientNumber++).start();
 			}
 		}
 	}
 
-	private static class Capitalizer extends Thread {
+	private static class Connector extends Thread {
 		private Socket socket;
 		private int clientNumber;
 
-		private Capitalizer(Socket socket, int clientNumber) {
+		private Connector(Socket socket, int clientNumber) {
 			this.socket = socket;
 			this.clientNumber = clientNumber;
 			System.out.println("New client #" + clientNumber + " connected at " + socket);
@@ -69,9 +69,9 @@ public class Server {
 		}
 
 		private void request(ObjectInputStream in, ObjectOutputStream out) throws Exception {
-			System.out.println("Debug ");
+			// System.out.println("Debug ");
 			ArrayList<String> responseFromClient = (ArrayList<String>) in.readObject();
-			System.out.println("Debug 2");
+			// System.out.println("Debug 2");
 
 			switch (responseFromClient.get(0)) {
 			case "username":
@@ -82,6 +82,10 @@ public class Server {
 				break;
 			case "Password":
 				ServerService.validatePassword(responseFromClient.get(1), responseFromClient.get(2), out);
+				break;
+			case "commands":
+				ServerService.validateCommand(responseFromClient.get(1),responseFromClient.get(2), /*responseFromClient.get(3),*/ out);
+				break;
 			default:
 				break;
 

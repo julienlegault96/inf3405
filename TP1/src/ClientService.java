@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -76,5 +77,26 @@ public class ClientService {
 		out.writeObject(messageToServer);
 		out.flush();
 	}
-
+	
+	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {
+		boolean isConnected = true;
+		//while(isConnected) {
+			System.out.print("Enter a command : ");
+			String command = new Scanner(System.in).nextLine();
+			ArrayList<String> messageToServer = new ArrayList<String>();
+			messageToServer.add("commands");
+			messageToServer.add(username);
+			messageToServer.add(command);
+			out.writeObject(messageToServer);
+			out.flush();
+		//}
+	}
+	
+	public static void listing(ArrayList<String> list) throws ClassNotFoundException, IOException {
+		//System.out.print("listing");
+		for(int i = 1; i < list.size(); i++ ) {
+			System.out.println(list.get(i));
+		}
+	}
+	
 }

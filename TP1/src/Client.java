@@ -18,7 +18,7 @@ public class Client {
 			scanner = new Scanner(System.in);
 			ClientService clientService = new ClientService();
 
-			System.out.println("Enter the IP address of a machine running the capitalize server:");
+			System.out.println("Enter the IP address of a machine running the server:");
 			String tempAddress = scanner.nextLine();
 			String serverAddress = clientService.validateIPaddress(tempAddress);
 
@@ -73,6 +73,7 @@ public class Client {
 
 		case "GoodPassword":
 			System.out.println("welcome " + username + " to your personal storage space!");
+			ClientService.enterCommands(username, out);
 			break;
 
 		case "BadPassword":
@@ -87,6 +88,11 @@ public class Client {
 			break;
 		case "DirectoryCreated":
 			System.out.println("Congratulations " + username + " your own storage space has been created!");
+			ClientService.enterCommands(username, out);
+			break;			
+		case "list":
+			System.out.println(">> ls"); 	
+			ClientService.listing(responseFromServer);
 			break;
 
 		default:
