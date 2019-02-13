@@ -176,7 +176,8 @@ public class ServerService {
 			disconnectUser(out);
 			break;
 		default:
-			System.out.println("Invalid command");
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " invalid command");
+			invalidComand(command, out);
 			break;
 		}
 	}
@@ -215,6 +216,14 @@ public class ServerService {
 	public static void disconnectUser(ObjectOutputStream out) throws IOException {
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		messageToClient.add("disconnect User");
+        out.writeObject(messageToClient);            
+		out.flush();
+	}
+	
+	public static void invalidComand(String command, ObjectOutputStream out) throws IOException {
+		ArrayList<String> messageToClient = new ArrayList<String>();
+		messageToClient.add("invalidComand");
+		messageToClient.add(command);
         out.writeObject(messageToClient);            
 		out.flush();
 	}

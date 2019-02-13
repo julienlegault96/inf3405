@@ -107,6 +107,11 @@ public class Client {
 			socket.close();
 			break;
 			
+		case "invalidComand":
+			System.out.println("Command " + responseFromServer.get(1) + " doesn't exist, enter a valid command : ");
+			ClientService.enterCommands(username, out);
+			break;
+			
 		default:
 			break;
 		}
