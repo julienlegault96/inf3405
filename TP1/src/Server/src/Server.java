@@ -1,3 +1,5 @@
+package Server.src;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -22,13 +24,13 @@ public class Server {
 		int clientNumber = 0;
 
 		System.out.println("Enter the IP address:");
-		String tempAddress = new Scanner(System.in).nextLine();
-		//String tempAddress = "127.0.0.1";
+		//String tempAddress = new Scanner(System.in).nextLine();
+		String tempAddress = "127.0.0.1";
 		String serverAddress = serverService.validateIPaddress(tempAddress);
 
 		System.out.println("Enter the port number:");
-		String tempPortNumber = new Scanner(System.in).nextLine();
-		//String tempPortNumber = "5000";
+		//String tempPortNumber = new Scanner(System.in).nextLine();
+		String tempPortNumber = "5000";
 		String portNumber = serverService.validatePortNumber(tempPortNumber);
 
 		System.out.println("The server is running.");
