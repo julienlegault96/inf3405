@@ -81,17 +81,22 @@ public class ClientService {
 	}	
 	
 	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {
-		boolean isConnected = true;
-		//while(isConnected) {
 			System.out.print("Enter a command : ");
 			String command = new Scanner(System.in).nextLine();
 			ArrayList<String> messageToServer = new ArrayList<String>();
 			messageToServer.add("commands");
 			messageToServer.add(username);
 			messageToServer.add(command);
+			if( command.equals("upload") || command.equals("download") || command.equals("delete") ) {
+				System.out.print("Enter the name of the file to " + command + " : ");
+				String file = new Scanner(System.in).nextLine();
+				messageToServer.add(file);
+			}
+			else {
+				messageToServer.add("");
+			}
 			out.writeObject(messageToServer);
 			out.flush();
-		//}
 	}
 	
 	public static void listing(ArrayList<String> list) throws ClassNotFoundException, IOException {

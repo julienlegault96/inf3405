@@ -20,12 +20,12 @@ public class Client {
 			scanner = new Scanner(System.in);
 			ClientService clientService = new ClientService();
 
-			System.out.println("Enter the IP address of a machine running the server:");
+			System.out.print("Enter the IP address of a machine running the server:");
 			//String tempAddress = scanner.nextLine();
 			String tempAddress = "127.0.0.1";
 			String serverAddress = clientService.validateIPaddress(tempAddress);
 
-			System.out.println("Enter the port number of a machine running the server:");
+			System.out.print("Enter the port number of a machine running the server:");
 			//String tempPortNumber = scanner.nextLine();
 			String tempPortNumber = "5000";		
 			String portNumber = clientService.validatePortNumber(tempPortNumber);
@@ -102,7 +102,6 @@ public class Client {
 			ClientService.listing(responseFromServer);
 			ClientService.enterCommands(username, out);
 			break;
-
 			
 		case "disconnect User":
 			System.out.println("User " + username + " was disconnected properly");

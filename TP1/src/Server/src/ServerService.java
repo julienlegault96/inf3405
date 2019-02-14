@@ -158,25 +158,33 @@ public class ServerService {
 		}
 	}
 	
-	public static void validateCommand(String username, String command, /*String commandArgument,*/ ObjectOutputStream out ) throws IOException {
+	public static void validateCommand(String username, String command, String file, ObjectOutputStream out ) throws IOException {
 		switch(command) {
 		case "ls" :	
 			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " ls");
 			list(new File("src/Server/database/" + username), out);
 			break;
+			
 		case "upload" :	
-			System.out.println("upload");
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " upload " + file);
+			//function call
 			break;
+			
 		case "download" :
-			System.out.println("download");
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " download " + file);
+			//function call
 			break;
+			
 		case "delete" :
-			System.out.println("delete");
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " delete " + file);
+			//function call
 			break;
+			
 		case "exit" :
 			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " exit");
 			disconnectUser(out);
 			break;
+			
 		default:
 			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " invalid command");
 			invalidComand(command, out);

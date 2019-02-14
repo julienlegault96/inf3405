@@ -23,12 +23,12 @@ public class Server {
 		ServerService serverService = new ServerService();
 		int clientNumber = 0;
 
-		System.out.println("Enter the IP address:");
+		System.out.print("Enter the IP address:");
 		//String tempAddress = new Scanner(System.in).nextLine();
 		String tempAddress = "127.0.0.1";
 		String serverAddress = serverService.validateIPaddress(tempAddress);
 
-		System.out.println("Enter the port number:");
+		System.out.print("Enter the port number:");
 		//String tempPortNumber = new Scanner(System.in).nextLine();
 		String tempPortNumber = "5000";
 		String portNumber = serverService.validatePortNumber(tempPortNumber);
@@ -86,7 +86,7 @@ public class Server {
 				ServerService.validatePassword(responseFromClient.get(1), responseFromClient.get(2), out);
 				break;
 			case "commands":
-				ServerService.validateCommand(responseFromClient.get(1),responseFromClient.get(2), /*responseFromClient.get(3),*/ out);
+				ServerService.validateCommand(responseFromClient.get(1),responseFromClient.get(2), responseFromClient.get(3), out);
 				break;
 			default:
 				break;
