@@ -50,7 +50,7 @@ public class Client {
 
 	private static void initialRequest(Scanner scanner, ObjectOutputStream out)
 			throws ClassNotFoundException, IOException {
-		System.out.println("Enter your username :");
+		System.out.print("Enter your username : ");
 		username = scanner.nextLine();
 		String type = "username";
 		ClientService.sendInput(username, type, out);
@@ -62,14 +62,14 @@ public class Client {
 			String type;
 			switch (responseFromServer.get(0)) {
 			case "newUsername":
-			System.out.println("It is your first connection, please enter your password : ");
+			System.out.print("It is your first connection, please enter your password : ");
 			password = scanner.nextLine();
 			type = "newPassword";
 			ClientService.validateUser(password, username, type, out);
 			break;
 
 		case "Password":
-			System.out.println("Hello " + username + " please enter your password : ");
+			System.out.print("Hello " + username + " please enter your password : ");
 			password = scanner.nextLine();
 			type = "Password";
 			ClientService.validateUser(password, username, type, out);
@@ -81,14 +81,14 @@ public class Client {
 			break;
 
 		case "BadPassword":
-			System.out.println("Wrong password! Insert a valid password : ");
+			System.out.print("Wrong password! Insert a valid password : ");
 			password = scanner.nextLine();
 			type = "Password";
 			ClientService.validateUser(password, username, type, out);
 			break;
 			
 		case "TooManyBadPasswords":
-			System.out.println("3 failed authentication attempts, the application will terminate !");
+			System.out.println("3 failed authentication attempts, the application will terminate!");
 			socket.close();
 			break;
 			
@@ -110,7 +110,7 @@ public class Client {
 			break;
 			
 		case "invalidComand":
-			System.out.println("Command " + responseFromServer.get(1) + " doesn't exist, enter a valid command : ");
+			System.out.println("Command " + responseFromServer.get(1) + " doesn't exist, enter a valid command!");
 			ClientService.enterCommands(username, out);
 			break;
 			
