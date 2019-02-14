@@ -82,18 +82,21 @@ public class ClientService {
 
 	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {
 		System.out.print("Enter a command : ");
-		String command = new Scanner(System.in).nextLine();
+		String input = new Scanner(System.in).nextLine();
+		String parts[] = input.split(" ", 2);
+		String command = parts[0];
+		String file;
+		if( command.equals("download") || command.equals("upload") || command.equals("delete") ) {
+			file = parts[1];
+		}
+		else {
+			file = " ";
+		}		 
 		ArrayList<String> messageToServer = new ArrayList<String>();
 		messageToServer.add("commands");
 		messageToServer.add(username);
 		messageToServer.add(command);
-		if (command.equals("upload") || command.equals("download") || command.equals("delete")) {
-			System.out.print("Enter the name of the file to " + command + " : ");
-			String file = new Scanner(System.in).nextLine();
-			messageToServer.add(file);
-		} else {
-			messageToServer.add("");
-		}
+		messageToServer.add(file);
 		out.writeObject(messageToServer);
 		out.flush();
 	}
