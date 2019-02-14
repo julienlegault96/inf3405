@@ -1,3 +1,5 @@
+package Server.src;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -91,7 +93,7 @@ public class ServerService {
 	}
 
 	public static void checkUsername(String username, ObjectOutputStream out) throws IOException {
-		File f = new File("../ClientInformations/" + username + ".txt");
+		File f = new File("src/Server/ClientInformations/" + username + ".txt");
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		if (f.exists()) {
 			messageToClient.add("Password");
@@ -118,16 +120,16 @@ public class ServerService {
 	private static void createDirectory(String username) {
 		File directory;
 
-		directory = new File("../database/" + username).getAbsoluteFile();
+		directory = new File("src/Server/database/" + username + ".txt" + username).getAbsoluteFile();
 		if (directory.exists() || directory.mkdirs()) {
 			System.setProperty(username, directory.getAbsolutePath());
 		}
 	}
 
 	public static void createUser(String username, String newPassword, ObjectOutputStream out) throws IOException {
-		File f = new File("../ClientInformations/" + username + ".txt");
+		File f = new File("src/Server/ClientInformations/" + username + ".txt");
 		f.createNewFile();
-		writeToFile(newPassword, "../ClientInformations/" + username + ".txt");
+		writeToFile(newPassword, "src/Server/ClientInformations/" + username + ".txt");
 		createDirectory(username);
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		messageToClient.add("DirectoryCreated");
@@ -137,7 +139,7 @@ public class ServerService {
 
 	public static void validatePassword(String username, String passwordInserted, ObjectOutputStream out)
 			throws IOException {
-		List<String> Pw = readFile("../ClientInformations/" + username + ".txt");
+		List<String> Pw = readFile("src/Server/ClientInformations/"  + username + ".txt");
 		String Password = String.join(", ", Pw);
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		if (passwordInserted.equals(Password)) {
@@ -160,7 +162,7 @@ public class ServerService {
 		switch(command) {
 		case "ls" :	
 			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " ls");
-			list(new File("../database/" + username), out);
+			list(new File("src/Server/database/" + username), out);
 			break;
 		case "upload" :	
 			System.out.println("upload");
@@ -176,7 +178,8 @@ public class ServerService {
 			disconnectUser(out);
 			break;
 		default:
-			System.out.println("Invalid command");
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " invalid command");
+			invalidComand(command, out);
 			break;
 		}
 	}
@@ -215,6 +218,14 @@ public class ServerService {
 	public static void disconnectUser(ObjectOutputStream out) throws IOException {
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		messageToClient.add("disconnect User");
+        out.writeObject(messageToClient);            
+		out.flush();
+	}
+	
+	public static void invalidComand(String command, ObjectOutputStream out) throws IOException {
+		ArrayList<String> messageToClient = new ArrayList<String>();
+		messageToClient.add("invalidComand");
+		messageToClient.add(command);
         out.writeObject(messageToClient);            
 		out.flush();
 	}

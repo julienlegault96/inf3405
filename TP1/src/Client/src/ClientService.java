@@ -1,3 +1,5 @@
+package Client.src;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -59,8 +61,8 @@ public class ClientService {
 		return portNumber;
 	}
 	
-	public static void validateUser(String Password, String username, String type, ObjectOutputStream out,
-			ObjectInputStream in) throws IOException, ClassNotFoundException {
+	public static void validateUser(String Password, String username, String type, ObjectOutputStream out) 
+			throws IOException, ClassNotFoundException {
 		ArrayList<String> messageToServer = new ArrayList<String>();
 		messageToServer.add(type);
 		messageToServer.add(username);
@@ -69,7 +71,7 @@ public class ClientService {
 		out.flush();
 	}
 
-	public static void sendInput(String input, String type, ObjectOutputStream out, ObjectInputStream in)
+	public static void sendInput(String input, String type, ObjectOutputStream out)
 			throws IOException, ClassNotFoundException {
 		ArrayList<String> messageToServer = new ArrayList<String>();
 		messageToServer.add(type);
