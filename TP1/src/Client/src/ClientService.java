@@ -60,8 +60,8 @@ public class ClientService {
 		}
 		return portNumber;
 	}
-	
-	public static void validateUser(String Password, String username, String type, ObjectOutputStream out) 
+
+	public static void validateUser(String Password, String username, String type, ObjectOutputStream out)
 			throws IOException, ClassNotFoundException {
 		ArrayList<String> messageToServer = new ArrayList<String>();
 		messageToServer.add(type);
@@ -71,36 +71,35 @@ public class ClientService {
 		out.flush();
 	}
 
-	public static void sendInput(String input, String type, ObjectOutputStream out)
+	public static void sendInitialRequest(String input, String type, ObjectOutputStream out)
 			throws IOException, ClassNotFoundException {
 		ArrayList<String> messageToServer = new ArrayList<String>();
 		messageToServer.add(type);
 		messageToServer.add(input);
 		out.writeObject(messageToServer);
 		out.flush();
-	}	
-	
-	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {
-			System.out.print("Enter a command : ");
-			String command = new Scanner(System.in).nextLine();
-			ArrayList<String> messageToServer = new ArrayList<String>();
-			messageToServer.add("commands");
-			messageToServer.add(username);
-			messageToServer.add(command);
-			if( command.equals("upload") || command.equals("download") || command.equals("delete") ) {
-				System.out.print("Enter the name of the file to " + command + " : ");
-				String file = new Scanner(System.in).nextLine();
-				messageToServer.add(file);
-			}
-			else {
-				messageToServer.add("");
-			}
-			out.writeObject(messageToServer);
-			out.flush();
 	}
-	
+
+	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {
+		System.out.print("Enter a command : ");
+		String command = new Scanner(System.in).nextLine();
+		ArrayList<String> messageToServer = new ArrayList<String>();
+		messageToServer.add("commands");
+		messageToServer.add(username);
+		messageToServer.add(command);
+		if (command.equals("upload") || command.equals("download") || command.equals("delete")) {
+			System.out.print("Enter the name of the file to " + command + " : ");
+			String file = new Scanner(System.in).nextLine();
+			messageToServer.add(file);
+		} else {
+			messageToServer.add("");
+		}
+		out.writeObject(messageToServer);
+		out.flush();
+	}
+
 	public static void listing(ArrayList<String> list) throws ClassNotFoundException, IOException {
-		for(int i = 1; i < list.size(); i++ ) {
+		for (int i = 1; i < list.size(); i++) {
 			System.out.println(list.get(i));
 		}
 	}

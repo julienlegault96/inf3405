@@ -139,7 +139,7 @@ public class ServerService {
 
 	public static void validatePassword(String username, String passwordInserted, ObjectOutputStream out)
 			throws IOException {
-		List<String> Pw = readFile("src/Server/ClientInformations/"  + username + ".txt");
+		List<String> Pw = readFile("src/Server/ClientInformations/" + username + ".txt");
 		String Password = String.join(", ", Pw);
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		if (passwordInserted.equals(Password)) {
@@ -157,84 +157,84 @@ public class ServerService {
 			out.flush();
 		}
 	}
-	
-	public static void validateCommand(String username, String command, String file, ObjectOutputStream out ) throws IOException {
-		switch(command) {
-		case "ls" :	
-			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " ls");
+
+	public static void validateCommand(String username, String command, String file, ObjectOutputStream out)
+			throws IOException {
+		switch (command) {
+		case "ls":
+			System.out.println(
+					"[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " ls");
 			list(new File("src/Server/database/" + username), out);
 			break;
-			
-		case "upload" :	
-			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " upload " + file);
-			//function call
+
+		case "upload":
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
+					+ " upload " + file);
+			// function call
 			break;
-			
-		case "download" :
-			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " download " + file);
-			//function call
+
+		case "download":
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
+					+ " download " + file);
+			// function call
 			break;
-			
-		case "delete" :
-			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " delete " + file);
-			//function call
+
+		case "delete":
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
+					+ " delete " + file);
+			// function call
 			break;
-			
-		case "exit" :
-			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " exit");
+
+		case "exit":
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
+					+ " exit");
 			disconnectUser(out);
 			break;
-			
+
 		default:
-			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:" + " invalid command");
+			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
+					+ " invalid command");
 			invalidComand(command, out);
 			break;
 		}
 	}
-	
-	public static void list(File path, ObjectOutputStream out) throws IOException
-    {
-        if (path.isDirectory())
-        {
-        	
-            File[] list = path.listFiles();
-            ArrayList<String> messageToClient = new ArrayList<String>();
-            messageToClient.add("list");
-            if (list.length !=  0)
-            {
-                for (int i = 0; i < list.length; i++)
-                {
-                	if (list[i].isDirectory()) {
-                	messageToClient.add("[Folder] " + list[i].getName());
-                	}
-                	else { 
-                	messageToClient.add("[File] " + list[i].getName());
-                	}
-                	
-                }
 
-            }
-            else
-            {
-            	messageToClient.add("Your storage space seem to be empty =( ");
-            } 
-            out.writeObject(messageToClient);            
+	public static void list(File path, ObjectOutputStream out) throws IOException {
+		if (path.isDirectory()) {
+
+			File[] list = path.listFiles();
+			ArrayList<String> messageToClient = new ArrayList<String>();
+			messageToClient.add("list");
+			if (list.length != 0) {
+				for (int i = 0; i < list.length; i++) {
+					if (list[i].isDirectory()) {
+						messageToClient.add("[Folder] " + list[i].getName());
+					} else {
+						messageToClient.add("[File] " + list[i].getName());
+					}
+
+				}
+
+			} else {
+				messageToClient.add("Your storage space seem to be empty =( ");
+			}
+			out.writeObject(messageToClient);
 			out.flush();
-        }   
-    }
-	
+		}
+	}
+
 	public static void disconnectUser(ObjectOutputStream out) throws IOException {
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		messageToClient.add("disconnect User");
-        out.writeObject(messageToClient);            
+		out.writeObject(messageToClient);
 		out.flush();
 	}
-	
+
 	public static void invalidComand(String command, ObjectOutputStream out) throws IOException {
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		messageToClient.add("invalidComand");
 		messageToClient.add(command);
-        out.writeObject(messageToClient);            
+		out.writeObject(messageToClient);
 		out.flush();
 	}
 }
