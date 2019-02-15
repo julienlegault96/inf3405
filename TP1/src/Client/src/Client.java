@@ -50,7 +50,8 @@ public class Client {
 	private static void initialRequest(Scanner scanner, ObjectOutputStream out)
 			throws ClassNotFoundException, IOException {
 		System.out.print("Enter your username : ");
-		username = scanner.nextLine();
+		//username = scanner.nextLine();
+		username = "test";
 		String type = "username";
 		ClientService.sendInitialRequest(username, type, out);
 	}
@@ -95,12 +96,40 @@ public class Client {
 			ClientService.listing(responseFromServer);
 			ClientService.enterCommands(username, out);
 			break;
+		case "downloadFile":
+			System.out.println(">> download " + responseFromServer.get(1));
+			System.out.println("The file " + responseFromServer.get(1) + " has been downloaded");
+			ClientService.enterCommands(username, out);
+			break;
+		case "uploadFile":
+			System.out.println(">> upload " + responseFromServer.get(1));
+			System.out.println("The file " + responseFromServer.get(1) + " has been uploaded");
+			ClientService.enterCommands(username, out);
+			break;
+		case "deletedFile":
+			System.out.println(">> delete " + responseFromServer.get(1));
+			System.out.println("The file " + responseFromServer.get(1) + " has been deleted");
+			ClientService.enterCommands(username, out);
+			break;
+		case "cantDeleteFile":
+			System.out.println(">> delete " + responseFromServer.get(1));
+			System.out.println("The file " + responseFromServer.get(1) + " cant be deleted because it doesnt exist");
+			ClientService.enterCommands(username, out);	
+			break;
 		case "disconnect User":
 			System.out.println("User " + username + " was disconnected properly");
 			socket.close();
 			break;
 		case "invalidComand":
 			System.out.println("Command " + responseFromServer.get(1) + " doesn't exist, enter a valid command!");
+			ClientService.enterCommands(username, out);
+			break;
+		case "Doesnt exist":
+			System.out.println("File " + responseFromServer.get(1) + " can't be " + responseFromServer.get(2) +"ed because it doesnt exist");
+			ClientService.enterCommands(username, out);
+			break;
+		case "already exist":
+			System.out.println("File " + responseFromServer.get(1) + " can't be " + responseFromServer.get(2) +"ed because it already exist");
 			ClientService.enterCommands(username, out);
 			break;
 		default:

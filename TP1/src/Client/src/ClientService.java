@@ -80,9 +80,13 @@ public class ClientService {
 		out.flush();
 	}
 
-	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {
+	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {		
 		System.out.print("Enter a command : ");
 		String input = new Scanner(System.in).nextLine();
+		while(input.equals("download") || input.equals("upload") || input.equals("delete")) {
+			System.out.println("File is missing, please enter the command you want with the file : ");
+			input = new Scanner(System.in).nextLine();
+		}
 		String parts[] = input.split(" ", 2);
 		String command = parts[0];
 		String file;
