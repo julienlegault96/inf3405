@@ -246,16 +246,7 @@ public class ServerService {
 	}
 	
 	//le fileName doit contenir l'xrtention du fichier
-	public static void deleteFile(String username, String fileName, ObjectOutputStream out) throws IOException { // l�
-																												 // il
-																												 // faut
-																												 // rajouter
-																												 // chez
-																												 // toi
-																												 // les
-																												 // ..
-																												 // avant
-																												 // !
+	public static void deleteFile(String username, String fileName, ObjectOutputStream out) throws IOException { 
 		File tempFile = new File("src/Server/database/" + username + "/" + fileName);
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		if (tempFile.delete()) {
