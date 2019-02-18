@@ -246,73 +246,78 @@ public class ServerService {
 	}
 	
 	//le fileName doit contenir l'xrtention du fichier
-	public static void deleteFile(String username, String fileName, ObjectOutputStream out) throws IOException 
-    {   // l� il faut rajouter chez toi les .. avant !
-		File tempFile= new File("src/Server/database/" + username + "/" + fileName);
+	public static void deleteFile(String username, String fileName, ObjectOutputStream out) throws IOException { // l�
+																												 // il
+																												 // faut
+																												 // rajouter
+																												 // chez
+																												 // toi
+																												 // les
+																												 // ..
+																												 // avant
+																												 // !
+		File tempFile = new File("src/Server/database/" + username + "/" + fileName);
 		ArrayList<String> messageToClient = new ArrayList<String>();
-		if(tempFile.delete()) {
+		if (tempFile.delete()) {
 			messageToClient.add("deletedFile");
 			messageToClient.add(fileName);
 		}
-			
+
 		else {
 			messageToClient.add("cantDeleteFile");
 			messageToClient.add(fileName);
 		}
 		out.writeObject(messageToClient);
-        System.out.println(messageToClient);
+		System.out.println(messageToClient);
 		out.flush();
-    }
-	
-	
+	}
 
 	public static void copyFile(File f1, File f2) throws IOException {
-		FileInputStream finput= null;
-		FileOutputStream foutput= null;
+		FileInputStream finput = null;
+		FileOutputStream foutput = null;
 		try {
 			finput = new FileInputStream(f1);
-            foutput = new FileOutputStream(f2);
-            byte buffer[]=new byte[512*1024];
-            int n;
-            while((n=finput.read(buffer))!=-1){
-            	foutput.write(buffer,0,n);
-        	}
-        }
-		finally {
+			foutput = new FileOutputStream(f2);
+			byte buffer[] = new byte[512 * 1024];
+			int n;
+			while ((n = finput.read(buffer)) != -1) {
+				foutput.write(buffer, 0, n);
+			}
+		} finally {
 			finput.close();
 			foutput.close();
 		}
-     }
+	}
 
-	public static void load(String username, String fileName, String operation, ObjectOutputStream out) throws IOException{
-		
-        File local_File = new File("./" + fileName ); // le fileName doit contenir l'extention du fichier 
-        File server_File = new File("src/Server/database/" + username + "/" + fileName);
-		ArrayList<String> messageToClient = new ArrayList<String>();		
-		
-        if((operation.equals("download") && !server_File.exists()) || (operation.equals("upload") && !local_File.exists())) {
-        	messageToClient.add("Doesnt exist");
-        	messageToClient.add(fileName);
-        	messageToClient.add(operation);        	
-        }
-        else if((operation.equals("download") && local_File.exists()) || (operation.equals("upload") && server_File.exists())) {
-        	messageToClient.add( "already exist");
-        	messageToClient.add(fileName);
-        	messageToClient.add(operation);         	
-        }        
-        else if(operation.equals("download")){
-        		copyFile(server_File,local_File);
-    			messageToClient.add("downloadFile");
-    			messageToClient.add(fileName);
-        }        
-		else if(operation.equals("upload")) {
-				copyFile(local_File,server_File);
-				messageToClient.add("uploadFile");
-				messageToClient.add(fileName);
+	public static void load(String username, String fileName, String operation, ObjectOutputStream out)
+			throws IOException {
+
+		File local_File = new File("./" + fileName); // le fileName doit contenir l'extention du fichier
+		File server_File = new File("src/Server/database/" + username + "/" + fileName);
+		ArrayList<String> messageToClient = new ArrayList<String>();
+
+		if ((operation.equals("download") && !server_File.exists())
+				|| (operation.equals("upload") && !local_File.exists())) {
+			messageToClient.add("Doesnt exist");
+			messageToClient.add(fileName);
+			messageToClient.add(operation);
+		} else if ((operation.equals("download") && local_File.exists())
+				|| (operation.equals("upload") && server_File.exists())) {
+			messageToClient.add("already exist");
+			messageToClient.add(fileName);
+			messageToClient.add(operation);
+		} else if (operation.equals("download")) {
+			copyFile(server_File, local_File);
+			messageToClient.add("downloadFile");
+			messageToClient.add(fileName);
+		} else if (operation.equals("upload")) {
+			copyFile(local_File, server_File);
+			messageToClient.add("uploadFile");
+			messageToClient.add(fileName);
 		}
-        out.writeObject(messageToClient);
-        System.out.println(messageToClient);
+		out.writeObject(messageToClient);
+		System.out.println(messageToClient);
 		out.flush();
-    }     	
+	}
 	
 }
