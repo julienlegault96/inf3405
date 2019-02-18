@@ -19,11 +19,11 @@ public class Client {
 		try {
 			scanner = new Scanner(System.in);
 
-			System.out.print("Enter the IP address of a machine running the server:");
+			System.out.print("Enter the IP address of a machine running the server: ");
 			String tempAddress = scanner.nextLine();
 			String serverAddress = ClientService.validateIPaddress(tempAddress, scanner);
 
-			System.out.print("Enter the port number of a machine running the server:");
+			System.out.print("Enter the port number of a machine running the server: ");
 			String tempPortNumber = scanner.nextLine();
 			String portNumber = ClientService.validatePortNumber(tempPortNumber, scanner);
 
