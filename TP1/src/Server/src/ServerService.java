@@ -119,7 +119,7 @@ public class ServerService {
 	private static void createDirectory(String username) {
 		File directory;
 
-		directory = new File("src/Server/database/" + username + ".txt" + username).getAbsoluteFile();
+		directory = new File("src/Server/database/" + username);
 		if (directory.exists() || directory.mkdirs()) {
 			System.setProperty(username, directory.getAbsolutePath());
 		}
@@ -162,8 +162,11 @@ public class ServerService {
 		}
 	}
 
-	public static void validateCommand(String username, String command, String file, Socket socket, ObjectOutputStream out)
+	public static void validateCommand(String username, String input, Socket socket, ObjectOutputStream out)
 			throws IOException {
+		String parts[] = input.split(" ", 2);
+		String file = " ";
+		String command = parts[0];
 		switch (command) {
 		case "ls":
 			System.out.println(
@@ -172,18 +175,21 @@ public class ServerService {
 			break;
 
 		case "upload":
+			file = parts[1];
 			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
 					+ " upload " + file);
 			load(username, file, "upload", out);
 			break;
 
 		case "download":
+			file = parts[1];
 			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
 					+ " download " + file);
 			load(username, file, "download", out);
 			break;
 
 		case "delete":
+			file = parts[1];
 			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
 					+ " delete " + file);
 			deleteFile(username, file, out);

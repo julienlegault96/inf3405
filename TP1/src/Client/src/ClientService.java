@@ -83,24 +83,24 @@ public class ClientService {
 	public static void enterCommands(String username, Scanner scanner,  ObjectOutputStream out) throws IOException {		
 		System.out.print("Enter a command : ");
 		String input = scanner.nextLine();
-		while(input.equals("download") || input.equals("upload") || input.equals("delete")) {
-			System.out.println("File is missing, please enter the command you want with the file : ");
-			input = scanner.nextLine();
-		}
-		String parts[] = input.split(" ", 2);
-		String command = parts[0];
-		String file;
-		if( command.equals("download") || command.equals("upload") || command.equals("delete") ) {
-			file = parts[1];
-		}
-		else {
-			file = " ";
-		}		 
+//		while(input.equals("download") || input.equals("upload") || input.equals("delete")) {
+//			System.out.println("File is missing, please enter the command you want with the file : ");
+//			input = scanner.nextLine();
+//		}
+//		String parts[] = input.split(" ", 2);
+//		String command = parts[0];
+//		String file;
+//		if( command.equals("download") || command.equals("upload") || command.equals("delete") ) {
+//			file = parts[1];
+//		}
+//		else {
+//			file = " ";
+//		}		 
 		ArrayList<String> messageToServer = new ArrayList<String>();
 		messageToServer.add("commands");
 		messageToServer.add(username);
-		messageToServer.add(command);
-		messageToServer.add(file);
+		messageToServer.add(input);
+		//messageToServer.add(file);
 		out.writeObject(messageToServer);
 		out.flush();
 	}

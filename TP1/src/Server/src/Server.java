@@ -21,13 +21,13 @@ public class Server {
 		try {
 			scanner = new Scanner(System.in);
 		System.out.print("Enter the IP address:");
-		String tempAddress = scanner.nextLine();
-		//String tempAddress = "127.0.0.1";
+		//String tempAddress = scanner.nextLine();
+		String tempAddress = "127.0.0.1";
 		String serverAddress = ServerService.validateIPaddress(tempAddress);
 
 		System.out.print("Enter the port number:");
-		String tempPortNumber = scanner.nextLine();
-		//String tempPortNumber = "5000";
+		//String tempPortNumber = scanner.nextLine();
+		String tempPortNumber = "5000";
 		String portNumber = ServerService.validatePortNumber(tempPortNumber);
 
 		System.out.println("The server is running.");
@@ -67,8 +67,7 @@ public class Server {
 				ServerService.validatePassword(responseFromClient.get(1), responseFromClient.get(2),responseFromClient.get(3), socket, out);
 				break;
 			case "commands":
-				ServerService.validateCommand(responseFromClient.get(1), responseFromClient.get(2), 
-						responseFromClient.get(3), socket, out);
+				ServerService.validateCommand(responseFromClient.get(1), responseFromClient.get(2), socket, out);
 				break;
 			default:
 				break;
