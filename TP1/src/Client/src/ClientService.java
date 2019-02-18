@@ -61,12 +61,13 @@ public class ClientService {
 		return portNumber;
 	}
 
-	public static void validateUser(String Password, String username, String type, ObjectOutputStream out)
+	public static void validateUser(String Password, String username, String attempt, String type, ObjectOutputStream out)
 			throws IOException, ClassNotFoundException {
 		ArrayList<String> messageToServer = new ArrayList<String>();
 		messageToServer.add(type);
 		messageToServer.add(username);
 		messageToServer.add(Password);
+		messageToServer.add(attempt);
 		out.writeObject(messageToServer);
 		out.flush();
 	}

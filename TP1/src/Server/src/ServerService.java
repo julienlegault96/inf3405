@@ -139,8 +139,10 @@ public class ServerService {
 		out.flush();
 	}
 
-	public static void validatePassword(String username, String passwordInserted, ObjectOutputStream out)
+	public static void validatePassword(String username, String passwordInserted, String attempt, ObjectOutputStream out)
 			throws IOException {
+		
+		Integer attemptNbr = Integer.valueOf(attempt);		
 		List<String> Pw = readFile("src/Server/ClientInformations/" + username + ".txt");
 		String Password = String.join(", ", Pw);
 		ArrayList<String> messageToClient = new ArrayList<String>();
@@ -148,11 +150,13 @@ public class ServerService {
 			messageToClient.add("GoodPassword");
 			out.writeObject(messageToClient);
 			out.flush();
-		} else if (attempt < MAX_ATTEMPT || passwordInserted.equals(Password)) {
+		} else if (attemptNbr < MAX_ATTEMPT && !passwordInserted.equals(Password)) {
+			attemptNbr++;
+			attempt = Integer.toString(attemptNbr);			
 			messageToClient.add("BadPassword");
+			messageToClient.add(attempt);
 			out.writeObject(messageToClient);
 			out.flush();
-			attempt++;
 		} else {
 			messageToClient.add("TooManyBadPasswords");
 			out.writeObject(messageToClient);

@@ -50,8 +50,7 @@ public class Client {
 	private static void initialRequest(Scanner scanner, ObjectOutputStream out)
 			throws ClassNotFoundException, IOException {
 		System.out.print("Enter your username : ");
-		//username = scanner.nextLine();
-		username = "test";
+		username = scanner.nextLine();
 		String type = "username";
 		ClientService.sendInitialRequest(username, type, out);
 	}
@@ -65,13 +64,13 @@ public class Client {
 			System.out.print("It is your first connection, please enter your password : ");
 			password = scanner.nextLine();
 			type = "newPassword";
-			ClientService.validateUser(password, username, type, out);
+			ClientService.validateUser(password, username, "1", type, out);
 			break;
 		case "Password":
 			System.out.print("Hello " + username + " please enter your password : ");
 			password = scanner.nextLine();
 			type = "Password";
-			ClientService.validateUser(password, username, type, out);
+			ClientService.validateUser(password, username, "1", type, out);
 			break;
 		case "GoodPassword":
 			System.out.println("welcome " + username + " to your personal storage space!");
@@ -81,7 +80,7 @@ public class Client {
 			System.out.print("Wrong password! Insert a valid password : ");
 			password = scanner.nextLine();
 			type = "Password";
-			ClientService.validateUser(password, username, type, out);
+			ClientService.validateUser(password, username, responseFromServer.get(1), type, out);
 			break;
 		case "TooManyBadPasswords":
 			System.out.println("3 failed authentication attempts, the application will terminate!");

@@ -83,10 +83,10 @@ public class Server {
 				ServerService.createUser(responseFromClient.get(1), responseFromClient.get(2), out);
 				break;
 			case "Password":
-				ServerService.validatePassword(responseFromClient.get(1), responseFromClient.get(2), out);
+				ServerService.validatePassword(responseFromClient.get(1), responseFromClient.get(2),responseFromClient.get(3), out);
 				break;
 			case "commands":
-				ServerService.validateCommand(responseFromClient.get(1), responseFromClient.get(2),
+				ServerService.validateCommand(responseFromClient.get(1), responseFromClient.get(2), 
 						responseFromClient.get(3), out);
 				break;
 			default:
