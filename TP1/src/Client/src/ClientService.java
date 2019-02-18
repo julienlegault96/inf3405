@@ -1,8 +1,6 @@
 package Client.src;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,6 +21,7 @@ public class ClientService {
 
 	public static String serverAddress;
 	public static String portNumber;
+	Scanner scanner;
 
 	private static boolean isValid(String number, Pattern pattern) {
 		if (number == null) {
@@ -33,11 +32,11 @@ public class ClientService {
 		return matcher.matches();
 	}
 
-	public static String validateIPaddress(String tempAddress) {
+	public static String validateIPaddress(String tempAddress, Scanner scanner) {
 		while (!isValid(tempAddress, IPv4_PATTERN)) {
 			System.out.println("The IP address " + tempAddress + " isn't valid \n");
 			System.out.println("Enter the correct IP address of the machine running the server:");
-			tempAddress = new Scanner(System.in).nextLine();
+			tempAddress = scanner.nextLine();
 		}
 
 		if (isValid(tempAddress, IPv4_PATTERN)) {
@@ -47,11 +46,11 @@ public class ClientService {
 		return serverAddress;
 	}
 
-	public static String validatePortNumber(String tempPortNumber) {
+	public static String validatePortNumber(String tempPortNumber,  Scanner scanner) {
 		while (!isValid(tempPortNumber, port_PATTERN)) {
 			System.out.println("The port number " + tempPortNumber + " isn't valid \n");
 			System.out.println("Enter the correct port number of the machine running the server:");
-			tempPortNumber = new Scanner(System.in).nextLine();
+			tempPortNumber = scanner.nextLine();
 		}
 
 		if (isValid(tempPortNumber, port_PATTERN)) {
@@ -81,12 +80,12 @@ public class ClientService {
 		out.flush();
 	}
 
-	public static void enterCommands(String username, ObjectOutputStream out) throws IOException {		
+	public static void enterCommands(String username, Scanner scanner,  ObjectOutputStream out) throws IOException {		
 		System.out.print("Enter a command : ");
-		String input = new Scanner(System.in).nextLine();
+		String input = scanner.nextLine();
 		while(input.equals("download") || input.equals("upload") || input.equals("delete")) {
 			System.out.println("File is missing, please enter the command you want with the file : ");
-			input = new Scanner(System.in).nextLine();
+			input = scanner.nextLine();
 		}
 		String parts[] = input.split(" ", 2);
 		String command = parts[0];

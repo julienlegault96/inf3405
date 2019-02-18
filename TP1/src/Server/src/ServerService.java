@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,11 +15,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class ServerService {
-	private static int attempt = 1;
 	final static int MAX_ATTEMPT = 3;
 	private static final String IPv4_REGEX = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
 											+ "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." 
@@ -139,7 +136,7 @@ public class ServerService {
 		out.flush();
 	}
 
-	public static void validatePassword(String username, String passwordInserted, String attempt, ObjectOutputStream out)
+	public static void validatePassword(String username, String passwordInserted, String attempt, Socket socket, ObjectOutputStream out)
 			throws IOException {
 		
 		Integer attemptNbr = Integer.valueOf(attempt);		
@@ -161,10 +158,11 @@ public class ServerService {
 			messageToClient.add("TooManyBadPasswords");
 			out.writeObject(messageToClient);
 			out.flush();
+			try {socket.close();} catch(IOException e) {}
 		}
 	}
 
-	public static void validateCommand(String username, String command, String file, ObjectOutputStream out)
+	public static void validateCommand(String username, String command, String file, Socket socket, ObjectOutputStream out)
 			throws IOException {
 		switch (command) {
 		case "ls":
@@ -194,7 +192,7 @@ public class ServerService {
 		case "exit":
 			System.out.println("[" + serverAddress + ":" + portNumber + " - " + new GregorianCalendar().getTime() + "]:"
 					+ " exit");
-			disconnectUser(out);
+			disconnectUser(socket, out);
 			break;
 
 		default:
@@ -230,11 +228,12 @@ public class ServerService {
 
 	}
 
-	public static void disconnectUser(ObjectOutputStream out) throws IOException {
+	public static void disconnectUser(Socket socket, ObjectOutputStream out) throws IOException {
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		messageToClient.add("disconnect User");
 		out.writeObject(messageToClient);
 		out.flush();
+		try {socket.close();} catch(IOException e) {}
 	}
 
 	public static void invalidComand(String command, ObjectOutputStream out) throws IOException {
@@ -245,7 +244,6 @@ public class ServerService {
 		out.flush();
 	}
 	
-	//le fileName doit contenir l'xrtention du fichier
 	public static void deleteFile(String username, String fileName, ObjectOutputStream out) throws IOException { 
 		File tempFile = new File("src/Server/database/" + username + "/" + fileName);
 		ArrayList<String> messageToClient = new ArrayList<String>();
@@ -283,7 +281,7 @@ public class ServerService {
 	public static void load(String username, String fileName, String operation, ObjectOutputStream out)
 			throws IOException {
 
-		File local_File = new File("./" + fileName); // le fileName doit contenir l'extention du fichier
+		File local_File = new File("./" + fileName);
 		File server_File = new File("src/Server/database/" + username + "/" + fileName);
 		ArrayList<String> messageToClient = new ArrayList<String>();
 

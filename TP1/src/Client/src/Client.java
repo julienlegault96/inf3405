@@ -18,20 +18,20 @@ public class Client {
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(System.in);
-			ClientService clientService = new ClientService();
 
 			System.out.print("Enter the IP address of a machine running the server:");
-			// String tempAddress = scanner.nextLine();
-			String tempAddress = "127.0.0.1";
-			String serverAddress = clientService.validateIPaddress(tempAddress);
+			String tempAddress = scanner.nextLine();
+			//String tempAddress = "127.0.0.1";
+			String serverAddress = ClientService.validateIPaddress(tempAddress, scanner);
 
 			System.out.print("Enter the port number of a machine running the server:");
-			// String tempPortNumber = scanner.nextLine();
-			String tempPortNumber = "5000";
-			String portNumber = clientService.validatePortNumber(tempPortNumber);
+			String tempPortNumber = scanner.nextLine();
+			//String tempPortNumber = "5000";
+			String portNumber = ClientService.validatePortNumber(tempPortNumber, scanner);
 
 			socket = new Socket(serverAddress, Integer.parseInt(portNumber));
 
+		try {
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			out.flush();
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -40,10 +40,10 @@ public class Client {
 			while (true) {
 				request(socket, scanner, in, out);
 			}
-
+		}
+		catch (Exception e) {}
 		} finally {
 			scanner.close();
-			socket.close();
 		}
 	}
 
@@ -74,62 +74,60 @@ public class Client {
 			break;
 		case "GoodPassword":
 			System.out.println("welcome " + username + " to your personal storage space!");
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		case "BadPassword":
 			System.out.print("Wrong password! Insert a valid password : ");
 			password = scanner.nextLine();
 			type = "Password";
 			ClientService.validateUser(password, username, responseFromServer.get(1), type, out);
-			break;
+			break;			
 		case "TooManyBadPasswords":
 			System.out.println("3 failed authentication attempts, the application will terminate!");
-			socket.close();
 			break;
+		case "disconnect User":
+			System.out.println("User " + username + " was disconnected properly");
+			break;			
 		case "DirectoryCreated":
 			System.out.println("Congratulations " + username + " your own storage space has been created!");
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		case "list":
 			System.out.println(">> ls");
 			ClientService.listing(responseFromServer);
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		case "downloadFile":
 			System.out.println(">> download " + responseFromServer.get(1));
 			System.out.println("The file " + responseFromServer.get(1) + " has been downloaded");
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		case "uploadFile":
 			System.out.println(">> upload " + responseFromServer.get(1));
 			System.out.println("The file " + responseFromServer.get(1) + " has been uploaded");
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		case "deletedFile":
 			System.out.println(">> delete " + responseFromServer.get(1));
 			System.out.println("The file " + responseFromServer.get(1) + " has been deleted");
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		case "cantDeleteFile":
 			System.out.println(">> delete " + responseFromServer.get(1));
 			System.out.println("The file " + responseFromServer.get(1) + " cant be deleted because it doesnt exist");
-			ClientService.enterCommands(username, out);	
-			break;
-		case "disconnect User":
-			System.out.println("User " + username + " was disconnected properly");
-			socket.close();
+			ClientService.enterCommands(username, scanner, out);	
 			break;
 		case "invalidComand":
 			System.out.println("Command " + responseFromServer.get(1) + " doesn't exist, enter a valid command!");
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		case "Doesnt exist":
 			System.out.println("File " + responseFromServer.get(1) + " can't be " + responseFromServer.get(2) +"ed because it doesnt exist");
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		case "already exist":
 			System.out.println("File " + responseFromServer.get(1) + " can't be " + responseFromServer.get(2) +"ed because it already exist");
-			ClientService.enterCommands(username, out);
+			ClientService.enterCommands(username, scanner, out);
 			break;
 		default:
 			break;
