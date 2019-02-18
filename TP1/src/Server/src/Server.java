@@ -21,13 +21,11 @@ public class Server {
 		try {
 			scanner = new Scanner(System.in);
 		System.out.print("Enter the IP address:");
-		//String tempAddress = scanner.nextLine();
-		String tempAddress = "127.0.0.1";
+		String tempAddress = scanner.nextLine();
 		String serverAddress = ServerService.validateIPaddress(tempAddress);
 
 		System.out.print("Enter the port number:");
-		//String tempPortNumber = scanner.nextLine();
-		String tempPortNumber = "5000";
+		String tempPortNumber = scanner.nextLine();
 		String portNumber = ServerService.validatePortNumber(tempPortNumber);
 
 		System.out.println("The server is running.");

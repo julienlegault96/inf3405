@@ -70,26 +70,7 @@ public class ServerService {
 		return portNumber;
 	}
 
-	// Repris du code fourni
-	private static List<String> readFile(String nomFichier) throws IOException {
-		List<String> listOfLines = new ArrayList<String>();
-		String line = null;
-		FileReader fileReader = null;
-		BufferedReader bufferedReader = null;
-		try {
-			fileReader = new FileReader(nomFichier);
 
-			bufferedReader = new BufferedReader(fileReader);
-
-			while ((line = bufferedReader.readLine()) != null) {
-				listOfLines.add(line);
-			}
-		} finally {
-			fileReader.close();
-			bufferedReader.close();
-		}
-		return listOfLines;
-	}
 
 	public static void checkUsername(String username, ObjectOutputStream out) throws IOException {
 		File f = new File("src/Server/ClientInformations/" + username + ".txt");
@@ -134,6 +115,27 @@ public class ServerService {
 		messageToClient.add("DirectoryCreated");
 		out.writeObject(messageToClient);
 		out.flush();
+	}
+	
+	// Repris du code fourni
+	private static List<String> readFile(String nomFichier) throws IOException {
+		List<String> listOfLines = new ArrayList<String>();
+		String line = null;
+		FileReader fileReader = null;
+		BufferedReader bufferedReader = null;
+		try {
+			fileReader = new FileReader(nomFichier);
+
+			bufferedReader = new BufferedReader(fileReader);
+
+			while ((line = bufferedReader.readLine()) != null) {
+				listOfLines.add(line);
+			}
+		} finally {
+			fileReader.close();
+			bufferedReader.close();
+		}
+		return listOfLines;
 	}
 
 	public static void validatePassword(String username, String passwordInserted, String attempt, Socket socket, ObjectOutputStream out)
@@ -209,7 +211,7 @@ public class ServerService {
 		}
 	}
 
-	public static void list(File path, ObjectOutputStream out) throws IOException {
+	private static void list(File path, ObjectOutputStream out) throws IOException {
 		if (path.isDirectory()) {
 
 			File[] list = path.listFiles();
@@ -234,7 +236,7 @@ public class ServerService {
 
 	}
 
-	public static void disconnectUser(Socket socket, ObjectOutputStream out) throws IOException {
+	private static void disconnectUser(Socket socket, ObjectOutputStream out) throws IOException {
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		messageToClient.add("disconnect User");
 		out.writeObject(messageToClient);
@@ -242,7 +244,7 @@ public class ServerService {
 		try {socket.close();} catch(IOException e) {}
 	}
 
-	public static void invalidComand(String command, ObjectOutputStream out) throws IOException {
+	private static void invalidComand(String command, ObjectOutputStream out) throws IOException {
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		messageToClient.add("invalidComand");
 		messageToClient.add(command);
@@ -250,7 +252,7 @@ public class ServerService {
 		out.flush();
 	}
 	
-	public static void deleteFile(String username, String fileName, ObjectOutputStream out) throws IOException { 
+	private static void deleteFile(String username, String fileName, ObjectOutputStream out) throws IOException { 
 		File tempFile = new File("src/Server/database/" + username + "/" + fileName);
 		ArrayList<String> messageToClient = new ArrayList<String>();
 		if (tempFile.delete()) {
@@ -267,7 +269,7 @@ public class ServerService {
 		out.flush();
 	}
 
-	public static void copyFile(File f1, File f2) throws IOException {
+	private static void copyFile(File f1, File f2) throws IOException {
 		FileInputStream finput = null;
 		FileOutputStream foutput = null;
 		try {
@@ -284,7 +286,7 @@ public class ServerService {
 		}
 	}
 
-	public static void load(String username, String fileName, String operation, ObjectOutputStream out)
+	private static void load(String username, String fileName, String operation, ObjectOutputStream out)
 			throws IOException {
 
 		File local_File = new File("./" + fileName);
