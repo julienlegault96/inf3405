@@ -35,13 +35,13 @@ public class ClientService {
 	public static String validateIPaddress(String tempAddress, Scanner scanner) {
 		while (!isValid(tempAddress, IPv4_PATTERN)) {
 			System.out.println("The IP address " + tempAddress + " isn't valid \n");
-			System.out.println("Enter the correct IP address of the machine running the server:");
+			System.out.print("Enter the correct IP address of the machine running the server: ");
 			tempAddress = scanner.nextLine();
 		}
 
 		if (isValid(tempAddress, IPv4_PATTERN)) {
 			serverAddress = tempAddress;
-			System.out.print("The IP address " + serverAddress + " is valid \n");
+			System.out.println("The IP address " + serverAddress + " is valid \n");
 		}
 		return serverAddress;
 	}
@@ -49,13 +49,13 @@ public class ClientService {
 	public static String validatePortNumber(String tempPortNumber,  Scanner scanner) {
 		while (!isValid(tempPortNumber, port_PATTERN)) {
 			System.out.println("The port number " + tempPortNumber + " isn't valid \n");
-			System.out.println("Enter the correct port number of the machine running the server:");
+			System.out.print("Enter the correct port number of the machine running the server: ");
 			tempPortNumber = scanner.nextLine();
 		}
 
 		if (isValid(tempPortNumber, port_PATTERN)) {
 			portNumber = tempPortNumber;
-			System.out.print("The IP address " + portNumber + " is valid \n");
+			System.out.println("The IP address " + portNumber + " is valid \n");
 		}
 		return portNumber;
 	}

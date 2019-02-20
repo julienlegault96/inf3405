@@ -45,13 +45,13 @@ public class ServerService {
 	public static String validateIPaddress(String tempAddress) {
 		while (!isValid(tempAddress, IPv4_PATTERN)) {
 			System.out.println("The IP address " + tempAddress + " isn't valid \n");
-			System.out.println("Enter the correct IP address of the machine running the server:");
+			System.out.print("Enter the correct IP address of the machine running the server: ");
 			tempAddress = new Scanner(System.in).nextLine();
 		}
 
 		if (isValid(tempAddress, IPv4_PATTERN)) {
 			serverAddress = tempAddress;
-			System.out.print("The IP address " + serverAddress + " is valid \n");
+			System.out.println("The IP address " + serverAddress + " is valid \n");
 		}
 		return serverAddress;
 	}
@@ -59,13 +59,13 @@ public class ServerService {
 	public static String validatePortNumber(String tempPortNumber) {
 		while (!isValid(tempPortNumber, port_PATTERN)) {
 			System.out.println("The port number " + tempPortNumber + " isn't valid \n");
-			System.out.println("Enter the correct port number of the machine running the server:");
+			System.out.print("Enter the correct port number of the machine running the server: ");
 			tempPortNumber = new Scanner(System.in).nextLine();
 		}
 
 		if (isValid(tempPortNumber, port_PATTERN)) {
 			portNumber = tempPortNumber;
-			System.out.print("The IP address " + portNumber + " is valid \n");
+			System.out.println("The IP address " + portNumber + " is valid \n");
 		}
 		return portNumber;
 	}
@@ -265,7 +265,6 @@ public class ServerService {
 			messageToClient.add(fileName);
 		}
 		out.writeObject(messageToClient);
-		System.out.println(messageToClient);
 		out.flush();
 	}
 
@@ -292,7 +291,6 @@ public class ServerService {
 		File local_File = new File("./" + fileName);
 		File server_File = new File("src/Server/database/" + username + "/" + fileName);
 		ArrayList<String> messageToClient = new ArrayList<String>();
-
 		if ((operation.equals("download") && !server_File.exists())
 				|| (operation.equals("upload") && !local_File.exists())) {
 			messageToClient.add("Doesnt exist");
@@ -313,7 +311,6 @@ public class ServerService {
 			messageToClient.add(fileName);
 		}
 		out.writeObject(messageToClient);
-		System.out.println(messageToClient);
 		out.flush();
 	}
 	
