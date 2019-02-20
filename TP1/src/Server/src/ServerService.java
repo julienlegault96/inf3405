@@ -285,6 +285,7 @@ public class ServerService {
 		}
 	}
 
+	// methode permettant le televersement ou le telechargement d un fichier 
 	private static void load(String username, String fileName, String operation, ObjectOutputStream out)
 			throws IOException {
 

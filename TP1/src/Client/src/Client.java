@@ -45,6 +45,9 @@ public class Client {
 		}
 	}
 
+	/* Utilisation d une requete initiale pour eviter l interblocage du a la creation 
+	*  simultanee des deux buffers de lecture 
+	*/	
 	private static void initialRequest(Scanner scanner, ObjectOutputStream out)
 			throws ClassNotFoundException, IOException {
 		System.out.print("Enter your username : ");
