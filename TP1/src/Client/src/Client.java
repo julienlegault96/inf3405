@@ -61,6 +61,7 @@ public class Client {
 		ArrayList<String> responseFromServer = (ArrayList<String>) in.readObject();
 		String type;
 		switch (responseFromServer.get(0)) {
+		
 		case "newUsername":
 			System.out.print("It is your first connection, please enter your password : ");
 			password = scanner.nextLine();
@@ -85,7 +86,8 @@ public class Client {
 			password = scanner.nextLine();
 			type = "Password";
 			ClientService.validateUser(password, username, responseFromServer.get(1), type, out);
-			break;			
+			break;		
+			
 		case "TooManyBadPasswords":
 			System.out.println("3 failed authentication attempts, the application will terminate!");
 			break;
@@ -93,7 +95,8 @@ public class Client {
 		case "disconnect User":
 			System.out.println(">> exit");
 			System.out.println("User " + username + " was disconnected properly");
-			break;			
+			break;	
+
 		case "DirectoryCreated":
 			System.out.println("Congratulations " + username + " your own storage space has been created!");
 			ClientService.enterCommands(username, scanner, out);
